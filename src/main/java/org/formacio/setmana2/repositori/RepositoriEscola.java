@@ -25,9 +25,12 @@ public class RepositoriEscola {
 	
 	@Transactional
 	public Matricula apunta (String alumne, String curs) throws EdatIncorrecteException {
-	    Matricula matricula = new Matricula();
 	    Alumne objetoAlumno = entityManager.find(Alumne.class, alumne);
 	    Curs objetoCurso = entityManager.find(Curs.class, curs);
+	    if (objetoAlumno.getEdat() < objetoCurso.getEdatMinima()) {
+	    	throw new EdatIncorrecteException();
+		}
+		Matricula matricula = new Matricula();
 	    matricula.setAlumne(objetoAlumno);
 	    matricula.setCurs(objetoCurso);
 	    entityManager.persist(matricula);
